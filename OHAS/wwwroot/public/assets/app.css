@@ -1,0 +1,1069 @@
+/* ============================================================
+   OHAS 职业健康档案系统 · 主题与业务组件补充层
+   依赖：assets/vendor/tabler.min.css（Tabler UI 1.3，已本地化）
+   说明：全部基础组件（表单/表格/徽标/弹窗/分页/空态…）直接复用
+   Tabler 类名；本文件只做三件事——
+     1. 职业健康主题色（青绿）与中文字体栈
+     2. 少量布局微调（侧栏品牌、下拉徽标对齐）
+     3. 业务组件：岗位危害配置行 / 子表单面板 / 照片框 / 登录底色
+   ============================================================ */
+
+/* ---------- 1. 主题色：卫生健康青绿 ---------- */
+:root,
+[data-bs-theme=dark] {
+    --tblr-primary:               #0f766e;
+    --tblr-primary-rgb:           15, 118, 110;
+    --tblr-primary-darken:        #0b5d57;
+    --tblr-primary-fg:            #ffffff;
+    --tblr-primary-lt:            #e6f4f2;
+    --tblr-primary-lt-rgb:        230, 244, 242;
+    --tblr-primary-text-emphasis: #0a5751;
+    --tblr-primary-bg-subtle:     #e6f4f2;
+    --tblr-primary-border-subtle: #b9e0db;
+    --tblr-primary-200:           #b9e0db;
+    --tblr-link-color:            #0f766e;
+    --tblr-link-color-rgb:        15, 118, 110;
+    --tblr-link-hover-color:      #0b5d57;
+    --tblr-link-hover-color-rgb:  11, 93, 87;
+}
+
+/* ---------- 2. 中文字体栈 ---------- */
+:root {
+    --tblr-font-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
+        "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---------- 3. 侧边菜单 ---------- */
+/* lg 及以上：菜单区撑满整列（顶部品牌已移至拉通标题栏） */
+@media (min-width: 992px) {
+    .navbar-vertical .navbar-collapse {
+        display: flex !important;
+        flex-direction: column;
+    }
+    .navbar-vertical .navbar-collapse .navbar-nav {
+        flex-grow: 1;
+    }
+}
+
+/* ---------- 4. 岗位 × 危害因素配置行（岗位表单） ---------- */
+.ph-rows {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+.ph-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, .75fr) minmax(0, 1fr)
+        minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: .5rem .75rem;
+    align-items: end;
+    padding: .75rem .875rem .875rem;
+    border: 1px solid var(--tblr-border-color, #dadfe5);
+    border-radius: var(--tblr-border-radius-lg, .5rem);
+    background: var(--tblr-bg-surface-secondary, #f7f8fa);
+}
+.ph-row .form-label {
+    font-size: .725rem;
+    font-weight: var(--tblr-font-weight-medium, 500);
+    color: var(--tblr-secondary, #6c7a89);
+    margin-bottom: .25rem;
+}
+.ph-del {
+    width: 2.25rem;
+    height: 2.25rem;
+    flex: none;
+}
+@media (max-width: 992px) {
+    .ph-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* ---------- 5. 子表单面板（职业史 / 既往病史 / 职业病诊断） ---------- */
+.subform {
+    margin-top: 1rem;
+    padding: 1rem 1.25rem 1.25rem;
+    border: 1px solid var(--tblr-border-color, #dadfe5);
+    border-radius: var(--tblr-border-radius-lg, .5rem);
+    background: var(--tblr-bg-surface-secondary, #f7f8fa);
+}
+.subform-title {
+    font-weight: var(--tblr-font-weight-bold, 600);
+    margin-bottom: .75rem;
+}
+.subform-title .subform-cancel {
+    margin-left: .5rem;
+    font-weight: 400;
+}
+.subform-msg {
+    color: var(--tblr-danger, #d63939);
+    font-size: .8125rem;
+    min-height: 1.25rem;
+    margin: .25rem 0;
+}
+
+/* ---------- 6. 照片框（表6-1 证件照） ---------- */
+.photo-box {
+    width: 8.5rem;
+    height: 11.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px dashed var(--tblr-border-color, #d6dbe3);
+    border-radius: var(--tblr-border-radius-lg, .5rem);
+    background: var(--tblr-bg-surface-secondary, #f7f8fa);
+    color: var(--tblr-secondary, #6c7a89);
+    font-size: .8125rem;
+}
+.photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ---------- 7. 登录 / 安装 / 错误页底色 ---------- */
+.auth-body {
+    background: linear-gradient(165deg, #eef6f4 0%, #ffffff 48%, #f0f7f6 100%);
+}
+
+/* ---------- 8. 杂项 ---------- */
+/* 数据准备向导：序号圆形 */
+.list-group-item .avatar {
+    font-weight: 600;
+}
+/* 概览表数值右对齐 + 等宽数字 */
+.table .text-end {
+    font-variant-numeric: tabular-nums;
+}
+/* 空态在小卡片内时缩小留白 */
+.empty.empty-sm {
+    padding: 1.5rem 1rem;
+}
+/* 分节标题 hr-text：Tabler 把 .hr-text 容器压成 1px 高，标题文字以溢出
+   方式绘制，默认靠 2rem 外边距避免叠字；一旦配合 hr-text-spaceless、
+   my-2 等压缩间距的用法（岗位表单、职业病目录、批次统计等页），
+   紧随其后的说明文字/列表就会与标题垂直重叠，形成"文字堆叠"。
+   这里让标题回到文档流内撑起行高：分隔线仍与标题垂直居中（视觉不变），
+   但标题行在文档流中占据真实高度，不再与相邻内容叠压。 */
+.hr-text {
+    height: auto;
+}
+/* 压缩间距变体：上侧保留负边距贴近上方区块，下侧由负改正，
+   给紧随的说明文字/列表留出行距 */
+.hr-text.hr-text-spaceless {
+    margin: -.5rem 0 .5rem;
+}
+
+/* ============================================================
+   9. 界面美化：护眼配色 + 自适应宽度
+   思路：米绿底色降低视觉疲劳；主内容不再锁死 1140/1320px，
+        随屏幕流式铺满并保留随视口变化的左右留白。
+   ============================================================ */
+
+/* ---------- 9.1 护眼配色令牌 ---------- */
+:root {
+    --ohas-page-bg:      #eef4ec;   /* 页面底色：米绿 */
+    --ohas-surface:      #fbfdf9;   /* 卡片/表面 */
+    --ohas-surface-2:    #f3f7ef;   /* 次级表面（表头、内嵌块） */
+    --ohas-surface-3:    #e9f1e3;   /* 三级表面（悬停、进度条底） */
+    --ohas-head:         #eaf1e5;   /* 表头底色 */
+    --ohas-border:       #dbe5d3;   /* 常规描边 */
+    --ohas-border-soft:  #e6ecdf;   /* 表格内细分隔线 */
+    --ohas-text:         #2f3b33;   /* 正文 */
+    --ohas-muted:        #5f6f62;   /* 次级文字 */
+    --ohas-accent:       #0f766e;   /* 主色（沿用青绿） */
+    --ohas-accent-soft:  rgba(15, 118, 110, .08);
+    --ohas-radius:       .75rem;
+    --ohas-shadow:       0 1px 2px rgba(47, 59, 51, .04),
+                         0 8px 24px -16px rgba(47, 59, 51, .35);
+}
+
+/* 覆盖 Tabler / Bootstrap 基础变量（app.css 在 tabler.min.css 之后加载） */
+:root {
+    --tblr-body-bg:                 var(--ohas-page-bg);
+    --tblr-body-bg-rgb:             238, 244, 236;
+    --tblr-body-color:              var(--ohas-text);
+    --tblr-body-color-rgb:          47, 59, 51;
+    --tblr-secondary:               var(--ohas-muted);
+    --tblr-secondary-rgb:           95, 111, 98;
+    --tblr-border-color:            var(--ohas-border);
+    --tblr-border-color-translucent: rgba(47, 59, 51, .10);
+    --tblr-bg-surface:              var(--ohas-surface);
+    --tblr-bg-surface-secondary:    var(--ohas-surface-2);
+    --tblr-bg-surface-tertiary:     var(--ohas-surface-3);
+    --tblr-card-bg:                 var(--ohas-surface);
+    --tblr-card-border-color:       var(--ohas-border);
+    --tblr-table-border-color:      var(--ohas-border-soft);
+    --tblr-table-hover-bg:          rgba(15, 118, 110, .05);
+}
+
+body.app,
+.page,
+.page-wrapper {
+    background-color: var(--ohas-page-bg);
+    color: var(--ohas-text);
+}
+
+/* ---------- 9.2 自适应宽度：主容器流式铺满 ---------- */
+.container-xl.app-container {
+    width: 100%;
+    max-width: 100%;
+    padding-left: clamp(1rem, 2.4vw, 3rem);
+    padding-right: clamp(1rem, 2.4vw, 3rem);
+}
+/* 侧栏容器不参与左右留白 */
+.navbar-vertical .container-xl.app-container {
+    padding-left: .75rem;
+    padding-right: .75rem;
+}
+@media (max-width: 575.98px) {
+    .container-xl.app-container {
+        padding-left: .875rem;
+        padding-right: .875rem;
+    }
+}
+
+/* ---------- 9.3 侧边菜单 ---------- */
+.page > aside.navbar-vertical {
+    --tblr-navbar-bg: #2f3f36;
+    background-color: #2f3f36;
+    box-shadow: inset -1px 0 0 rgba(255, 255, 255, .04);
+}
+/* 窄屏：菜单收起时侧栏不占高（展开后作为深色面板下接标题栏） */
+@media (max-width: 991.98px) {
+    .page > aside.navbar-vertical {
+        min-height: 0;
+        padding: 0;
+    }
+    .page > aside.navbar-vertical > .container-xl {
+        padding: 0;
+    }
+    .page > aside.navbar-vertical .navbar-collapse {
+        padding: .25rem .625rem .75rem;
+    }
+}
+
+/* ---------- 9.4 卡片 / 页头 ---------- */
+.card {
+    border-color: var(--ohas-border);
+    border-radius: var(--ohas-radius);
+    box-shadow: var(--ohas-shadow);
+}
+.card-header {
+    background-color: transparent;
+    background-image: linear-gradient(180deg, var(--ohas-surface-2), transparent);
+    border-bottom-color: var(--ohas-border);
+    font-weight: var(--tblr-font-weight-bold, 600);
+}
+.card-footer {
+    background-color: transparent;
+    border-top-color: var(--ohas-border);
+}
+.page-title {
+    font-weight: 650;
+    letter-spacing: .01em;
+}
+.page-pretitle {
+    color: var(--ohas-muted);
+}
+
+/* ---------- 9.5 表格 ---------- */
+.table {
+    color: var(--ohas-text);
+    --tblr-table-border-color: var(--ohas-border-soft);
+    --tblr-table-striped-bg: rgba(15, 118, 110, .025);
+    --tblr-table-hover-bg: rgba(15, 118, 110, .05);
+}
+.table thead th {
+    background-color: var(--ohas-head);
+    color: #43544a;
+    font-weight: 600;
+    white-space: nowrap;
+    border-bottom-color: var(--ohas-border);
+}
+.table > :not(caption) > * > * {
+    border-bottom-color: var(--ohas-border-soft);
+}
+.table-hover > tbody > tr:hover > * {
+    background-color: var(--tblr-table-hover-bg);
+}
+
+/* ---------- 9.6 表单 ---------- */
+.form-control,
+.form-select {
+    background-color: #fff;
+    border-color: var(--ohas-border);
+    border-radius: .5rem;
+}
+.form-control:focus,
+.form-select:focus {
+    border-color: #7fb8ac;
+    box-shadow: 0 0 0 .2rem rgba(15, 118, 110, .12);
+}
+.form-label {
+    color: #3d4c41;
+    font-weight: var(--tblr-font-weight-medium, 500);
+}
+.form-hint,
+.form-text {
+    color: var(--ohas-muted);
+}
+
+/* ---------- 9.7 按钮 / 徽标 / 分页 / 提示 ---------- */
+.btn {
+    border-radius: .5rem;
+}
+.btn-link {
+    text-decoration: none;
+}
+.badge {
+    border-radius: .375rem;
+}
+.page-link {
+    border-color: var(--ohas-border);
+    color: var(--ohas-accent);
+}
+.page-item.active .page-link {
+    border-color: var(--ohas-accent);
+}
+.progress {
+    background-color: var(--ohas-surface-3);
+    border-radius: 999px;
+}
+.alert {
+    border-radius: var(--ohas-radius);
+}
+.dropdown-menu {
+    border-color: var(--ohas-border);
+    box-shadow: 0 12px 32px -18px rgba(47, 59, 51, .45);
+}
+.page-wrapper .dropdown-menu .dropdown-item:hover,
+.page-wrapper .dropdown-menu .dropdown-item:focus {
+    background-color: var(--ohas-surface-2);
+}
+
+/* ---------- 9.8 登录 / 安装 / 错误页 ---------- */
+.auth-body {
+    background:
+        radial-gradient(1100px 520px at 12% 0%, #e2efe5 0%, rgba(226, 239, 229, 0) 62%),
+        linear-gradient(165deg, #f2f7ef 0%, #fbfdf9 55%, #edf4e9 100%);
+}
+
+/* ---------- 9.9 打印：保持表格清晰，不继承装饰 ---------- */
+@media print {
+    body.app,
+    .page,
+    .page-wrapper {
+        background: #fff;
+    }
+    .app-header,
+    .page > aside.navbar-vertical {
+        display: none !important;
+    }
+    body.app .page {
+        padding-top: 0;
+    }
+    .card,
+    .dropdown-menu {
+        box-shadow: none;
+    }
+    .table thead th {
+        background: #f2f2f2;
+        color: #000;
+    }
+}
+
+/* ============================================================
+   10. 日期输入框：统一中文占位
+   浏览器原生 type=date 空值时会显示 yyyy-mm-日 之类的本地化片段，
+   不同浏览器/语言下表现不一致。此处空值时隐藏原生片段，改用统一
+   的“请选择日期”提示；聚焦或已有值时恢复显示真实日期。
+   ============================================================ */
+.date-field {
+    position: relative;
+    display: block;
+}
+.date-field > input[type="date"] {
+    width: 100%;
+}
+/* 默认不显示自定义提示（不支持 ::-webkit-datetime-edit 的浏览器保持原生占位） */
+.date-field-hint {
+    display: none;
+}
+.date-field.has-value .date-field-hint,
+.date-field > input[type="date"]:focus + .date-field-hint {
+    display: none;
+}
+
+@supports selector(::-webkit-datetime-edit) {
+    .date-field-hint {
+        display: block;
+        position: absolute;
+        left: .75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--ohas-muted);
+        font-size: inherit;
+        line-height: 1;
+        white-space: nowrap;
+        pointer-events: none;
+    }
+    /* 空值且未聚焦：隐藏浏览器自带的日期片段 */
+    .date-field > input[type="date"].date-empty:not(:focus)::-webkit-datetime-edit {
+        color: transparent;
+    }
+    /* 聚焦时恢复，便于分段输入 */
+    .date-field > input[type="date"]:focus::-webkit-datetime-edit {
+        color: var(--ohas-text);
+    }
+}
+
+/* ============================================================
+   11. 危害因素选择器（HazardPicker，459 条目录专用下拉）
+   结构：.hzpick > button.hzpick-btn + .hzpick-panel
+   原生 select 隐藏保留（可聚焦，required 校验气泡仍可用）
+   ============================================================ */
+.hzpick {
+    position: relative;
+    display: block;
+    min-width: 0;
+}
+/* 原生 select：视觉隐藏但保持可聚焦（原生 required 提示不失效） */
+.hzpick select.hzpick-select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 2rem;
+    opacity: 0;
+    border: 0;
+    padding: 0;
+    pointer-events: none;
+}
+
+/* ---- 触发按钮（外观与 form-select 一致） ---- */
+.hzpick-btn {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    width: 100%;
+    min-height: 2.375rem;
+    padding: .4375rem .75rem;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid var(--ohas-border);
+    border-radius: .5rem;
+    color: var(--ohas-text);
+    font-size: .875rem;
+    line-height: 1.45;
+    cursor: pointer;
+    transition: border-color .15s, box-shadow .15s;
+}
+.hzpick-btn:hover {
+    border-color: #b7cdc0;
+}
+.hzpick.open .hzpick-btn,
+.hzpick-btn:focus {
+    border-color: #7fb8ac;
+    box-shadow: 0 0 0 .2rem rgba(15, 118, 110, .12);
+    outline: none;
+}
+.hzpick-btn:disabled {
+    background-color: var(--ohas-surface-2);
+    color: var(--ohas-muted);
+    cursor: not-allowed;
+}
+.hzpick-value {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.hzpick:not(.has-value) .hzpick-value {
+    color: var(--ohas-muted);
+}
+.hzpick-caret {
+    flex: none;
+    color: var(--ohas-muted);
+    font-size: .9rem;
+    transition: transform .15s;
+}
+.hzpick.open .hzpick-caret {
+    transform: rotate(180deg);
+}
+/* 清除按钮：仅有值时显示 */
+.hzpick-clear {
+    display: none;
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--ohas-muted);
+    font-size: .8rem;
+    line-height: 1;
+}
+.hzpick-clear:hover {
+    background: var(--ohas-surface-3);
+    color: var(--tblr-danger, #d63939);
+}
+.hzpick.has-value .hzpick-clear {
+    display: inline-flex;
+}
+.hzpick.has-value .hzpick-caret {
+    display: none;
+}
+
+/* ---- 下拉面板 ---- */
+.hzpick-panel {
+    position: absolute;
+    z-index: 1030;
+    top: calc(100% + .25rem);
+    left: 0;
+    width: min(26rem, calc(100vw - 3rem));
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--ohas-border);
+    border-radius: var(--ohas-radius);
+    box-shadow: 0 12px 32px -14px rgba(47, 59, 51, .4);
+    overflow: hidden;
+}
+.hzpick-panel.dropup {
+    top: auto;
+    bottom: calc(100% + .25rem);
+}
+
+/* 搜索框 */
+.hzpick-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: .5rem .625rem;
+    border-bottom: 1px solid var(--ohas-border-soft);
+    background: var(--ohas-surface-2);
+}
+.hzpick-search-icon {
+    color: var(--ohas-muted);
+    margin-right: .375rem;
+    font-size: .9rem;
+}
+.hzpick-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: 1px solid var(--ohas-border);
+    border-radius: .375rem;
+    padding: .25rem .5rem;
+    font-size: .8125rem;
+    background: #fff;
+    color: var(--ohas-text);
+}
+.hzpick-input:focus {
+    outline: none;
+    border-color: #7fb8ac;
+    box-shadow: 0 0 0 .15rem rgba(15, 118, 110, .12);
+}
+.hzpick-kwclear {
+    flex: none;
+    margin-left: .375rem;
+    border: 0;
+    background: transparent;
+    color: var(--ohas-muted);
+    font-size: .85rem;
+    padding: .125rem .25rem;
+    border-radius: .25rem;
+}
+.hzpick-kwclear:hover {
+    color: var(--tblr-danger, #d63939);
+    background: var(--ohas-surface-3);
+}
+
+/* 类别多级筛选 */
+.hzpick-cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem;
+    padding: .5rem .625rem;
+    border-bottom: 1px solid var(--ohas-border-soft);
+}
+.hzpick-cat {
+    border: 1px solid var(--ohas-border);
+    background: #fff;
+    color: var(--ohas-muted);
+    border-radius: 999px;
+    padding: .125rem .5625rem;
+    font-size: .75rem;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: all .12s;
+}
+.hzpick-cat:hover {
+    border-color: #7fb8ac;
+    color: var(--ohas-accent);
+}
+.hzpick-cat.active {
+    background: var(--ohas-accent);
+    border-color: var(--ohas-accent);
+    color: #fff;
+}
+.hzpick-cat-n {
+    font-size: .6875rem;
+    opacity: .75;
+    margin-left: .125rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* 列表 */
+.hzpick-list {
+    max-height: 17rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: .25rem;
+}
+.hzpick-item {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .3125rem .5rem;
+    border-radius: .375rem;
+    cursor: pointer;
+}
+.hzpick-item:hover,
+.hzpick-item.active {
+    background: var(--ohas-accent-soft);
+}
+.hzpick-item.active {
+    box-shadow: inset 2px 0 0 var(--ohas-accent);
+}
+.hzpick-item-main {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.hzpick-item-name {
+    display: block;
+    font-size: .8125rem;
+    color: var(--ohas-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.hzpick-item-name b {
+    color: var(--ohas-accent);
+    font-weight: 600;
+}
+.hzpick-item-meta {
+    display: block;
+    font-size: .6875rem;
+    color: var(--ohas-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.hzpick-dz { color: #b45309; }
+.hzpick-no { color: var(--ohas-accent); margin-left: .375rem; }
+.hzpick-note { color: var(--ohas-muted); margin-left: .375rem; }
+
+/* 类别徽标（与字典页配色一致） */
+.hzpick-badge {
+    flex: none;
+    font-size: .6875rem;
+    line-height: 1.4;
+    padding: .0625rem .4375rem;
+    border-radius: .3125rem;
+    white-space: nowrap;
+}
+.hz-cat-dust  { background: #fdf3d7; color: #8a6116; }
+.hz-cat-chem  { background: #ffe9d6; color: #a13c10; }
+.hz-cat-phys  { background: #ece4fb; color: #6440b8; }
+.hz-cat-rad   { background: #fde3e3; color: #b03434; }
+.hz-cat-bio   { background: #ddf3e2; color: #237a3d; }
+.hz-cat-other { background: #e9eef2; color: #55636f; }
+
+/* 空态 / 底栏 */
+.hzpick-empty {
+    padding: 1.25rem .5rem;
+    text-align: center;
+    color: var(--ohas-muted);
+    font-size: .8125rem;
+}
+.hzpick-empty-reset {
+    margin-top: .5rem;
+    border: 1px solid var(--ohas-border);
+    background: #fff;
+    color: var(--ohas-accent);
+    border-radius: 999px;
+    padding: .1875rem .875rem;
+    font-size: .75rem;
+    cursor: pointer;
+}
+.hzpick-empty-reset:hover {
+    background: var(--ohas-accent-soft);
+    border-color: #7fb8ac;
+}
+.hzpick-foot {
+    padding: .3125rem .75rem;
+    border-top: 1px solid var(--ohas-border-soft);
+    background: var(--ohas-surface-2);
+    color: var(--ohas-muted);
+    font-size: .6875rem;
+}
+.hzpick-count {
+    color: var(--ohas-accent);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---- 多选模式（表4-1 设备材料化学品 × 危害因素） ---- */
+/* 触发按钮允许多行收纳已选名称（超长省略，title 提示完整清单） */
+.hzpick-btn.hzpick-btn-multi {
+    min-height: 2.375rem;
+    align-items: flex-start;
+}
+.hzpick-btn.hzpick-btn-multi .hzpick-value {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.45;
+}
+/* 勾选框（选中后以主题色填充、白勾） */
+.hzpick-check {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.125rem;
+    height: 1.125rem;
+    margin-top: .0625rem;
+    border: 1px solid var(--ohas-border, #b3c2bc);
+    border-radius: .3125rem;
+    background: #fff;
+    color: transparent;
+    font-size: .8rem;
+    transition: all .12s;
+}
+.hzpick-item:hover .hzpick-check,
+.hzpick-item.active .hzpick-check {
+    border-color: #7fb8ac;
+}
+.hzpick-item.selected .hzpick-check {
+    background: var(--ohas-accent);
+    border-color: var(--ohas-accent);
+    color: #fff;
+}
+.hzpick-item.selected {
+    background: var(--ohas-accent-soft);
+    box-shadow: inset 2px 0 0 var(--ohas-accent);
+}
+.hzpick-item.selected .hzpick-item-name {
+    font-weight: 600;
+}
+.hzpick-multi-tip {
+    margin-left: .25rem;
+}
+
+/* 打印隐藏组件装饰 */
+@media print {
+    .hzpick-btn,
+    .hzpick-panel {
+        display: none !important;
+    }
+    .hzpick select.hzpick-select {
+        position: static;
+        width: auto;
+        height: auto;
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+/* ============================================================
+   12. 主界面版式：顶部拉通标题栏 + 左菜单右工作区
+   结构：<header class="app-header"> 视口顶部固定拉通（品牌 +
+   当前用户）；下方左侧 aside 深色菜单、右侧 page-wrapper
+   工作区（Tabler 原生左右分栏）。仅需三条定位规则完成下移。
+   ============================================================ */
+
+/* ---------- 12.1 顶栏本体 ---------- */
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1041;            /* 高于侧栏(1030)，低于弹窗(1055) */
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    height: 3.5rem;
+    padding: 0 1rem 0 .875rem;
+    background: linear-gradient(180deg, #374c41 0%, #2a3c32 55%, #213026 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07),
+                0 .5rem 1.25rem -.75rem rgba(24, 36, 29, .7);
+    color: #fff;
+}
+
+/* 移动端菜单开关（浅色描边 + 白色汉堡线条） */
+.app-header .navbar-toggler {
+    padding: .25rem .5rem;
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: .375rem;
+    --tblr-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+.app-header .navbar-toggler:focus {
+    box-shadow: 0 0 0 .2rem rgba(255, 255, 255, .18);
+}
+
+/* ---------- 12.2 品牌 ---------- */
+.app-brand {
+    display: flex;
+    align-items: center;
+    gap: .625rem;
+    min-width: 0;
+    color: #fff;
+    text-decoration: none;
+}
+.app-brand-text {
+    min-width: 0;
+    line-height: 1.3;
+}
+.app-brand-name {
+    display: block;
+    font-size: .9375rem;
+    font-weight: 650;
+    letter-spacing: .02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.app-brand-sub {
+    display: block;
+    font-size: .6875rem;
+    color: rgba(255, 255, 255, .55);
+    white-space: nowrap;
+}
+.app-brand-ver {
+    flex: none;
+    font-size: .625rem;
+    line-height: 1;
+    padding: .25rem .375rem;
+    border: 1px solid rgba(255, 255, 255, .22);
+    border-radius: .3125rem;
+    color: rgba(255, 255, 255, .6);
+    white-space: nowrap;
+}
+@media (max-width: 767.98px) {
+    .app-brand-sub,
+    .app-brand-ver {
+        display: none;
+    }
+}
+
+/* ---------- 12.3 右侧用户区（下拉菜单式） ---------- */
+.app-header-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+.app-header-user {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .25rem .5rem .25rem .25rem;
+    border: 1px solid transparent;
+    border-radius: .5rem;
+    color: #fff;
+    font-size: .875rem;
+    text-decoration: none;
+}
+.app-header-user:hover,
+.app-header-user:focus {
+    color: #fff;
+    background: rgba(255, 255, 255, .12);
+    border-color: rgba(255, 255, 255, .18);
+}
+.app-header-user.show,
+.app-header-user[aria-expanded="true"] {
+    color: #fff;
+    background: rgba(255, 255, 255, .16);
+}
+.app-header-user .avatar {
+    color: #10382f;
+    background-color: #bfdcd2;
+    flex: none;
+}
+.app-header-user .small {
+    color: rgba(255, 255, 255, .55);
+}
+/* 窄屏（<md）：姓名文字已随 d-none 隐藏，仅留头像作为菜单入口 */
+@media (max-width: 767.98px) {
+    .app-header-user {
+        padding: .25rem;
+    }
+}
+
+/* ---------- 12.4 布局下移：顶栏固定后，菜单与工作区整体让位 ---------- */
+body.app .page {
+    padding-top: 3.5rem;              /* 所有断点：流内内容整体下移 */
+}
+@media (min-width: 992px) {
+    .page > aside.navbar-vertical {
+        top: 3.5rem;                  /* ≥lg 侧栏为 fixed，按视口下移（<lg 为流内布局，不可用 top） */
+    }
+}
+
+/* ---------- 12.5 应用外壳：窗口不滚动，滚动发生在工作区内部 ----------
+   顶栏 position:fixed 已铺满视口；由 window 承载滚动时右侧会留出滚动条沟槽，
+   顶栏视觉上无法贴到最右。因此使用固定视口高度 + 工作区内部滚动。
+   侧栏 ≥lg 为 fixed
+   且自身 overflow-y:scroll（见 Tabler），<lg 为流内收起面板，故用 flex 自适应。 */
+html,
+body.app {
+    height: 100%;
+    overflow: hidden;
+}
+body.app .page {
+    height: 100vh;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+body.app .page-wrapper {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;   /* 滚到底不把滚动传给窗口 */
+}
+
+/* 打印时恢复自然流，避免固定高度把内容裁掉 */
+@media print {
+    html,
+    body.app {
+        height: auto;
+        overflow: visible;
+    }
+    body.app .page {
+        height: auto;
+        min-height: 0;
+        display: block;
+        overflow: visible;
+    }
+    body.app .page-wrapper {
+        height: auto;
+        overflow: visible;
+    }
+}
+
+/* 页面标题下的副标题（由原页头上方小字移来） */
+.page-subtitle {
+    margin-top: 0;
+    font-size: .8125rem;
+    line-height: 1.4;
+}
+
+/* 顶栏搜索：加大输入区与字号，配搜索按钮（顶栏 3.5rem 内适配） */
+.app-header .app-search {
+    width: 280px;
+}
+.app-header .app-search .form-control {
+    height: 2.125rem;
+    font-size: .875rem;
+}
+.app-header .app-search .input-icon-addon {
+    font-size: 1rem;
+}
+.app-header .app-search-btn {
+    height: 2.125rem;
+    font-size: .875rem;
+}
+
+/* 侧栏分组分割线：替代原「六类职业卫生档案」小标题，加深色侧栏内的浅色细线 */
+.navbar-vertical .sidebar-divider {
+    border-top: 1px solid rgba(255, 255, 255, .12);
+}
+
+/* ---------- 12.6 侧栏分组：标题直达概览页 + 右侧箭头独立开合 ---------- */
+.navbar-vertical .nav-group {
+    display: flex;
+    align-items: stretch;
+}
+.navbar-vertical .nav-group .nav-link {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+/* 图标与文字间距沿用 Tabler 的 nav-link-icon 外边距，避免与一级菜单错位 */
+.navbar-vertical .nav-group-title {
+    flex: 1 1 auto;
+    border-radius: .25rem 0 0 .25rem;
+    padding-right: .25rem;
+}
+.navbar-vertical .nav-group-title .nav-link-icon {
+    flex: none;
+}
+.navbar-vertical .nav-group-title .nav-link-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.navbar-vertical .nav-group-title:hover,
+.navbar-vertical .nav-group-title:focus {
+    background: rgba(255, 255, 255, .06);
+}
+.navbar-vertical .nav-group-caret {
+    flex: 0 0 2rem;
+    width: 2rem;
+    padding-left: 0;
+    padding-right: 0;
+    justify-content: center;
+    border-radius: 0 .25rem .25rem 0;
+}
+.navbar-vertical .nav-group-caret:hover,
+.navbar-vertical .nav-group-caret:focus {
+    background: rgba(255, 255, 255, .06);
+}
+/* 箭头统一绘制：分组箭头与「系统管理」同尺寸、同位置；展开朝上、收起朝下 */
+.navbar-vertical .nav-link.dropdown-toggle::after {
+    flex: none;
+    box-sizing: border-box;
+    width: .5rem;
+    height: .5rem;
+    margin: 0 .125rem 0 auto;
+    vertical-align: middle;
+    border-width: 0 0 2px 2px;
+    border-style: solid;
+    border-color: currentColor;
+    transform: translateY(-2px) rotate(-45deg);
+    transition: transform .2s ease;
+}
+.navbar-vertical .nav-group-caret.dropdown-toggle::after {
+    margin: 0;
+}
+.navbar-vertical .nav-link.dropdown-toggle[aria-expanded="true"]::after {
+    transform: translateY(2px) rotate(135deg);
+}
+/* 子菜单：序号与图标统一 1.25rem 定宽列 → 文字同一起点、整列竖向对齐。
+   序号居中收窄（旧 min-width:2rem 左对齐留 14px 死角 + me-2 与容器 gap 叠加，视觉间距约 30px）；
+   图标禁 flex 收缩（旧超长标签把图标压窄 20→14px 致三个图标错位）；
+   文字定宽可省略，杜绝任何字体度量下溢出侧栏。 */
+.navbar-vertical .dropdown-menu .dropdown-item > .nav-item-no {
+    flex: 0 0 1.25rem; /* 固定列宽，与图标列严格同宽 → 文字起点跨行完全同线 */
+    text-align: center;
+    font-size: .875em;
+}
+.navbar-vertical .dropdown-menu .dropdown-item > .dropdown-item-icon {
+    flex: 0 0 auto;
+    margin-right: 0; /* 容器已有 gap:.5rem，Tabler 自带 margin-right 会双重叠加 */
+}
+.navbar-vertical .dropdown-menu .dropdown-item > .nav-item-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

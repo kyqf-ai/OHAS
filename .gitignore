@@ -1,0 +1,9 @@
+OHAS/logs/*.log
+OHAS/wwwroot/storage/*.db*
+OHAS/wwwroot/storage/logs/*
+!OHAS/wwwroot/storage/logs/README.txt
+OHAS/wwwroot/storage/sessions/*
+OHAS/wwwroot/storage/uploads/*
+!OHAS/wwwroot/storage/uploads/README.txt
+OHAS/wwwroot/storage/backups/*
+!OHAS/wwwroot/storage/backups/README.txt

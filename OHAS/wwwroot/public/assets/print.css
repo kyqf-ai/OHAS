@@ -1,0 +1,205 @@
+/* ============================================================
+   OHAS 统一表样打印规范 print.css
+   ------------------------------------------------------------
+   以《职业卫生档案管理规范》六类档案的 Word 样表为版式基准，
+   打印质量对齐「表6-1 劳动者个人信息卡」的统一标准：
+   - A4 纵向/横向，页边距 12mm，内容区 纵向186mm / 横向273mm
+   - 宋体正文（11~11.5pt），表题 16pt 加粗居中
+   - 表格 fixed 布局 + 1px 黑色实线边框，列宽精确到 mm
+   - 表头灰底（#f5f5f5）加粗居中；标签单元格灰底
+   - 空白行补齐，供打印后手工填写
+   - 打印时隐藏工具栏、保留灰底（print-color-adjust: exact）
+   - 签名留白用全角空格（恒为 1em，不折叠不折行）
+   - 「年 月 日」「时 分」手写留白一律用 .pdate / .pb 固定毫米宽度，
+     不依赖字体与空格字符，保证各表、各浏览器留白一致且够手写
+   所有规范表样打印页（prints/*）统一引用本文件，不再各自内联。
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+    font-family: "SimSun", "宋体", "Noto Serif SC", serif;
+    color: #000;
+    background: #666;
+    padding: 16px 0;
+    font-size: 11.5pt;
+}
+
+/* ---------- 屏幕预览：纸张外观（打印时自动去除） ---------- */
+.psheet {
+    width: 210mm;
+    min-height: 250mm;
+    margin: 0 auto;
+    background: #fff;
+    padding: 12mm;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, .4);
+}
+.psheet.psheet-land { width: 297mm; }
+
+/* ---------- 工具栏（屏幕可见，打印隐藏） ---------- */
+.ptoolbar {
+    width: 210mm;
+    margin: 0 auto 10px;
+    text-align: right;
+}
+.psheet-land ~ .ptoolbar, .ptoolbar.ptoolbar-land { width: 297mm; }
+.ptoolbar .phint { color: #ddd; font-size: 12px; margin-right: 12px; }
+.pbtn {
+    display: inline-block;
+    padding: 8px 22px;
+    background: #1e5aa8;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 8px;
+    text-decoration: none;
+    font-family: inherit;
+}
+.pbtn-sub { background: #6b7280; }
+.pbtn:hover { filter: brightness(1.08); }
+
+/* ---------- 抬头：档案号 / 表题 / 副题 ---------- */
+.pdoc-no { text-align: right; font-size: 12pt; margin-bottom: 4px; }
+.ptitle {
+    text-align: center;
+    font-size: 16pt;
+    letter-spacing: 2px;
+    margin: 6px 0 4px;
+    font-weight: bold;
+}
+.psub { text-align: center; font-size: 12pt; margin-bottom: 12px; }
+.psub b { margin: 0 10px; font-weight: normal; }
+.pmeta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 10.5pt;
+    margin-bottom: 6px;
+}
+.pmeta > span:first-child { min-width: 0; overflow-wrap: anywhere; }   /* 单位名称过长时折行，不挤压右侧 */
+.pmeta > span:last-child { flex: none; white-space: nowrap; }
+
+/* ---------- 统一表格 ---------- */
+table.ptable {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+table.ptable th, table.ptable td {
+    border: 1px solid #000;
+    padding: 5px 6px;
+    font-size: 11pt;
+    height: 32px;
+    word-break: normal;
+    overflow-wrap: break-word;
+    vertical-align: middle;
+    line-height: 1.35;
+}
+table.ptable.dense th, table.ptable.dense td { padding: 3px 4px; font-size: 10pt; height: 28px; }
+table.ptable th { text-align: center; background: #f5f5f5; font-weight: bold; }
+table.ptable td { text-align: center; }
+table.ptable td.left { text-align: left; }
+table.ptable td.plabel {
+    text-align: center;
+    background: #f5f5f5;
+    font-weight: normal;
+}
+table.ptable tr.psec td {
+    background: #f5f5f5;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
+    height: 34px;
+}
+/* 行组标签（如 表4-1 的 设备/材料/化学品） */
+table.ptable td.pgroup { background: #f5f5f5; font-weight: bold; }
+/* 空白待填行 */
+table.ptable tr.pempty td { height: 34px; }
+table.ptable tr.pempty.dense td { height: 28px; }
+/* 备注脚注 */
+.pnote { font-size: 10pt; line-height: 1.7; margin-top: 8px; white-space: pre-line; }
+/* 表尾签名栏：各字段一律单行，留白用全角空格避免标签内折行错位 */
+.psign {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11pt;
+    margin-top: 10px;
+    line-height: 1.8;
+}
+.psign > span { white-space: nowrap; }
+
+/* ---------- 手写留白 ----------
+   「年 月 日」：年 15mm（四位年份）、月 11mm、日 11mm，足够手写；
+   「时 分」及其它数字空格：.pb 11mm；.pb-s 8mm（两位数、人数等）。
+   用 inline-block 定宽，不受空格折叠、字体宽度影响。 */
+.pdate { display: inline-block; white-space: nowrap; }
+.pdate i, i.pb {
+    display: inline-block;
+    font-style: normal;
+    height: 1em;
+}
+.pdate i.y { width: 15mm; }
+.pdate i.m, .pdate i.d, i.pb { width: 11mm; }
+i.pb.pb-s { width: 8mm; }
+
+/* 单元格内多行明细 */
+.pcell-lines { text-align: left; }
+.pcell-lines p { margin: 1px 0; white-space: pre-line; }   /* 保留录入时的换行（文本框内回车） */
+/* 自由文本格：保留录入换行（模板源码里该格只含数据，不产生多余空行） */
+table.ptable td.pwrap { white-space: pre-line; }
+table.plist td { white-space: pre-line; }
+table.plist tr.pfoot td { white-space: normal; }
+/* 列表表样的表尾（说明 + 签名栏）放进表内最后一行：与末尾数据行同页，避免整页只剩签名 */
+table.ptable tr.pfoot td {
+    border: 0;
+    height: auto;
+    padding: 0;
+    text-align: left;
+    background: none;
+}
+table.ptable tr.pfoot { break-before: avoid; page-break-before: avoid; }
+table.ptable tr:has(+ tr.pfoot) { break-after: avoid; page-break-after: avoid; }
+/* 含签名行的填写格：正文靠上，「签名 + 日期」行沉到格底、日期靠右（对齐 Word 样表） */
+.pcell-lines.pfilled { vertical-align: top; }
+.pfill {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(var(--h, 30mm) - 12px);   /* 格高 - 上下内边距 - 边框，避免撑高行 */
+}
+.psignline {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    white-space: nowrap;
+    margin-top: 10px !important;
+}
+
+/* ---------- 多页规则 ---------- */
+thead { display: table-header-group; }
+tr, .psheet-inner { page-break-inside: avoid; }
+.psheet { break-after: page; }
+.psheet:last-of-type { break-after: auto; page-break-after: auto; }
+/* 表单类表样：一记录一页（最后一条不再追加分页符） */
+.psheet-inner { break-after: page; page-break-after: always; }
+.psheet-inner:last-child { break-after: auto; page-break-after: auto; }
+
+/* ---------- 打印 ---------- */
+@media print {
+    body { background: #fff; padding: 0; }
+    .ptoolbar { display: none; }
+    .psheet {
+        width: auto;
+        min-height: 0;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+    }
+    /* 默认 A4 纵向；横向页在各自视图的页级样式覆盖（@page 以后声明者优先） */
+    @page { size: A4 portrait; margin: 12mm; }
+    .psign, .psign-row, .pnote { break-inside: avoid; page-break-inside: avoid; }
+}

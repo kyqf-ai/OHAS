@@ -1,0 +1,26 @@
+# 应用根误当站点根（或子目录部署）时，上级 .htaccess 对非 index.php 文件默认拒绝，这里显式放行 public/ 静态资源与入口
+<IfModule mod_authz_core.c>
+    Require all granted
+    <FilesMatch ".*">
+        Require all granted
+    </FilesMatch>
+    # 放行之后显式封禁 .htaccess / .htpasswd 等（不依赖服务器自带的 .ht* 默认规则）
+    <FilesMatch "^\.ht">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+
+# OHAS public 目录：站点根指向此处
+# 可选：短地址重写（当前链接均兼容 index.php/ 前缀，不开启亦可正常访问）
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # 直接访问 /workers → index.php/workers
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [QSA,L]
+</IfModule>
+
+# 敏感文件扩展名封禁（本文件只管 public/ 目录；站点根误配为应用根时由上级 .htaccess 与各目录 .htaccess 兜底）
+<FilesMatch "\.(db|sqlite|sqlite3|lock|log|bak|md)$">
+    Require all denied
+</FilesMatch>
